@@ -19,20 +19,26 @@ public class QuickstartAgentExample {
     public static void main(String[] args) {
         // Use an Ark model (replace with a model name available in your Ark Console)
         BaseAgent agent = LlmAgent.builder()
-                .name("quickstart-agent")
-                .instruction("You are a helpful assistant.")
-                .model(new ArkLlm("doubao-seed-1-8-preview-251115"))
-                .build();
+            .name("quickstart-agent")
+            .instruction("You are a helpful assistant.")
+            .model(new ArkLlm("doubao-seed-1-8-preview-251115"))
+            .build();
 
         Runner runner = new Runner(agent);
+
+        Session session = runner.sessionService()
+            .createSession(runner.appName(), "userId", null, "sessionId")
+            .blockingGet();
 
         // Build a simple conversation
         Content userMsg = Content.fromParts(Part.fromText("hello!"));
         RunConfig runConfig = RunConfig.builder().setStreamingMode(RunConfig.StreamingMode.NONE).build();
-        Flowable<Event> events = runner.runAsync("user", "quickstart-session", userMsg, runConfig);
+        Flowable<Event> events = runner.runAsync(session.userId(), session.id(), userMsg, runConfig);
 
         // Print the final reply
-        events.blockingForEach(e -> { if (e.finalResponse()) System.out.println(e.stringifyContent()); });
+        events.blockingForEach(e -> {
+            if (e.finalResponse()) System.out.println(e.stringifyContent());
+        });
     }
 }
 ```

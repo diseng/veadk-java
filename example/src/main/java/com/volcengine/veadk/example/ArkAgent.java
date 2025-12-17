@@ -34,6 +34,7 @@ public class ArkAgent {
 
     private static final String appName = "ark_agent";
     private static final String modelId = "doubao-seed-1-8-preview-251115";
+
     // private static final String modelId = "deepseek-v3-2-251201";
 
     private static BaseAgent initAgent() {
@@ -41,11 +42,11 @@ public class ArkAgent {
                 .name(appName)
                 .description("A helpful assistant for user questions.")
                 .instruction(
-                    """
-                    Answer user questions to the best of your knowledge.
-                    1. use the 'getCurrentTime' tool to query the city’s current time.
-                    2. use the 'getWeather' tool to query the city’s current weather.
-                    """)
+                        """
+                        Answer user questions to the best of your knowledge.
+                        1. use the 'getCurrentTime' tool to query the city’s current time.
+                        2. use the 'getWeather' tool to query the city’s current weather.
+                        """)
                 .model(new ArkLlm(modelId))
                 .tools(
                         FunctionTool.create(ArkAgent.class, "getCurrentTime"),

@@ -17,22 +17,28 @@
 ```java
 public class QuickstartAgentExample {
     public static void main(String[] args) {
-        // 使用 Ark 模型（替换为你在 Ark 控制台可用的模型名）
+        // Use an Ark model (replace with a model name available in your Ark Console)
         BaseAgent agent = LlmAgent.builder()
-                .name("quickstart-agent")
-                .instruction("You are a helpful assistant.")
-                .model(new ArkLlm("doubao-seed-1-8-preview-251115"))
-                .build();
+            .name("quickstart-agent")
+            .instruction("You are a helpful assistant.")
+            .model(new ArkLlm("doubao-seed-1-8-preview-251115"))
+            .build();
 
         Runner runner = new Runner(agent);
 
-        // 构造一次简单对话
+        Session session = runner.sessionService()
+            .createSession(runner.appName(), "userId", null, "sessionId")
+            .blockingGet();
+
+        // Build a simple conversation
         Content userMsg = Content.fromParts(Part.fromText("hello!"));
         RunConfig runConfig = RunConfig.builder().setStreamingMode(RunConfig.StreamingMode.NONE).build();
-        Flowable<Event> events = runner.runAsync("user", "quickstart-session", userMsg, runConfig);
+        Flowable<Event> events = runner.runAsync(session.userId(), session.id(), userMsg, runConfig);
 
-        // 打印最终回复
-        events.blockingForEach(e -> { if (e.finalResponse()) System.out.println(e.stringifyContent()); });
+        // Print the final reply
+        events.blockingForEach(e -> {
+            if (e.finalResponse()) System.out.println(e.stringifyContent());
+        });
     }
 }
 ```

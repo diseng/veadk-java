@@ -24,6 +24,8 @@ limitations under the License.
     </parent>
 
     <artifactId>veadk-java</artifactId>
+    <name>Volcengine Agent Development Kit</name>
+    <description>An open-source Agent development toolkit that integrates the powerful capabilities of Volcengine</description>
 
     <dependencies>
         <dependency>

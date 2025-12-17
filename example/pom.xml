@@ -25,6 +25,8 @@ limitations under the License.
     </parent>
 
     <artifactId>example</artifactId>
+    <name>Volcengine Agent Development Kit</name>
+    <description>Usage Examples for Volcengine Agent Development Kit for Java</description>
 
     <dependencies>
         <dependency>
@@ -37,5 +39,17 @@ limitations under the License.
             <artifactId>google-adk-dev</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <configuration>
+                    <skipPublishing>true</skipPublishing>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
