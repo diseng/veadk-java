@@ -1,0 +1,15 @@
+# application.yml 配置
+spring:
+  mvc:
+    async:
+      request-timeout: 300000  # 5分钟（根据实际场景调整，单位：毫秒）
+  main:
+    allow-bean-definition-overriding: true
+
+# 1. 全局日志级别（默认是 INFO，改为 DEBUG 会输出所有组件的 Debug 日志，可能较冗余）
+logging:
+  level:
+    root: INFO  # 全局根日志级别（可选，不推荐直接开全局，太吵）
+    # 2. 指定包/类的 Debug 日志（推荐：只开启需要调试的包，比如你的业务包、Spring 核心包）
+    com.google.adk: TRACE  # 你的业务包（比如 AdkWebServer 所在包）
+    com.volcengine.veadk: DEBUG
